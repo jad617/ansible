@@ -1,0 +1,33 @@
+---
+
+- hosts: controller
+
+  tasks:
+
+
+        - name: Create Keyston DB
+          mysql_db:
+                name:  keystone
+                state: present
+
+        - name: Create Keyston on localhost
+          mysql_user:
+                name: keystone
+                host: localhost
+                password: "{{admin_pass}}"
+                priv: 'keystone.*:ALL'
+                state: present
+
+        - name: Create Keyston user remote
+          mysql_user:
+                name: keystone
+                host: '%'
+                password: "{{admin_pass}}"
+                priv: 'keystone.*:ALL'
+                state: present
+
+        - name: Delete anonymous users
+          mysql_user:
+                name: ''
+                host_all: yes
+                state: absent

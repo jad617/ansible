@@ -1,0 +1,31 @@
+---
+
+- hosts: controller
+
+  tasks:
+          - name: Install Memcached
+            apt:
+                    name: "{{ item }}"
+                    state: present
+            with_items:
+                    - memcached 
+                    - python-memcache 
+
+##Instead of ussing templates, I will use the lineinfile module
+                      
+                      #- name: Setup Memcached
+                      # template:
+                      # src: /root/ansible/openstack_install/templates/memcached.j2
+                      # dest: /etc/memcached.conf
+                     
+#Lineinfile finds the line starting with "-l" and will modify it with the added value
+          - name : Test lineinfile
+            lineinfile:
+                    dest: /etc/memcached.conf
+                    regexp: '^-l'
+                    line: '-l {{ ansible_eth0.ipv4.address }}'
+
+          - name: Restart Memcached
+            service:
+                  name: memcached
+                  state: restarted

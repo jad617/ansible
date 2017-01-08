@@ -1,0 +1,33 @@
+---
+
+- hosts: controller
+
+  tasks:
+
+
+        - name: Create Glance DB
+          mysql_db:
+                name:  glance
+                state: present
+
+        - name: Create Glance on localhost
+          mysql_user:
+                name: glance
+                host: localhost
+                password: "{{ admin_pass }}"
+                priv: 'glance.*:ALL'
+                state: present
+
+        - name: Create Glance user remote
+          mysql_user:
+                name: glance
+                host: '%'
+                password: "{{ admin_pass }}"
+                priv: 'glance.*:ALL'
+                state: present
+
+        - name: Delete anonymous users
+          mysql_user:
+                name: ''
+                host_all: yes
+                state: absent

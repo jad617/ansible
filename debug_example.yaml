@@ -1,0 +1,15 @@
+---
+
+- hosts: controller
+  tasks:
+        - name: debug through ansible.env
+          debug: 
+                var: ansible_eth0.ipv4.address
+        
+        - debug:
+                msg: "Test {{ ansible_eth0.ipv4 }} test"
+
+        - debug:
+                var: ansible_date_time.date
+        - debug:
+                var: mysql_root

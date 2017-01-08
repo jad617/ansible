@@ -1,0 +1,47 @@
+---
+
+- hosts: controller
+
+  tasks:
+
+        - name: Install Keystone
+          apt:
+                  name: keystone
+                  state: present
+
+        - name: Manage keyston.conf
+          template: 
+                  src: templates/keystone_conf.j2
+                  dest: /etc/keystone/keystone.conf
+
+        - name: Populate the Identity service database
+          command: su -s /bin/sh -c "keystone-manage db_sync" keystone         
+
+        - name: Initialize Fernet key repositories
+          command: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+         
+
+        - command: keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+        - command: keystone-manage bootstrap --bootstrap-password {{ admin_pass }} \
+            --bootstrap-admin-url http://controller:35357/v3/ \
+              --bootstrap-internal-url http://controller:35357/v3/ \
+                --bootstrap-public-url http://controller:5000/v3/ \
+                  --bootstrap-region-id RegionOne
+
+
+        - name: Modify ServerName in apache
+          lineinfile:
+                  dest: /etc/apache2/apache2.conf
+                  regexp: '^ServerName'
+                  line: 'ServerName controller'
+
+        - name: Restart apache
+          service:
+                name:  apache2
+                state: restarted
+
+        - name: SQLite db
+          file: 
+                path: /var/lib/keystone/keystone.db
+                state: absent
+

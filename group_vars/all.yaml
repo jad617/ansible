@@ -1,0 +1,5 @@
+---
+
+keystonDB_pass : 7ayater5
+admin_pass: 7ayater5
+api_pass: "--os-auth-url http://controller:35357/v3 --os-project-domain-name default --os-identity-api-version 3 --os-user-domain-name default --os-project-name admin --os-username admin --os-password {{ admin_pass}}"

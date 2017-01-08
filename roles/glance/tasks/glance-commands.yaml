@@ -1,0 +1,43 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+
+        - name: Create Glance user
+          os_user:
+                cloud: admin
+                state: present
+                name: glance
+                password: "{{admin_pass}}"
+                domain: default
+
+
+        - name: Add glance USER to admin ROLE and service PROJECT
+          os_user_role:
+                  cloud: admin
+                  state: present
+                  user: glance
+                  project: service
+                  role: admin
+
+        - name: Create glance service
+          os_keystone_service:
+                  cloud: admin
+                  state: present
+                  name: glance
+                  service_type: image
+                  description: "OpenStack Image"
+
+        - name: Create Image service API endpoints
+          command: openstack endpoint create --region RegionOne {{api_pass}} \
+            image public http://controller:9292
+
+
+        - command: openstack endpoint create --region RegionOne {{api_pass}} \
+            image internal http://controller:9292
+
+        - command: openstack endpoint create --region RegionOne {{api_pass}} \
+            image admin http://controller:9292

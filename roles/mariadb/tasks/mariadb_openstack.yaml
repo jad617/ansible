@@ -1,0 +1,58 @@
+---
+
+- hosts: controller
+
+  tasks:
+
+        - name: Install MySQL + Python module
+          apt:
+
+                name: "{{ item }}"
+                state: present
+          with_items:
+                - mariadb-server
+                - python-mysqldb
+                - python-pymysql  
+
+        - name: Setup MariaDB
+          template: 
+                src: templates/mariadb_cnf.j2
+                dest: /etc/mysql/mariadb.conf.d/99-openstack.cnf
+       # - name: Change bind-address value
+       #   lineinfile:
+       #          dest: /etc/mysql/mariadb.conf.d/99-openstack.cnf
+       #          regexp: '^bind'
+       #          line: 'bind-address = {{ ansible_eth0.ipv4.address }}' 
+
+
+        - name: Change charset value to UTF-8
+          lineinfile:
+                  dest: "/etc/mysql/mariadb.conf.d/{{ item }}"
+                  regexp: '^default-character-set'
+                  line: 'default-character-set = utf8'
+          with_items:
+                  - 50-mysql-clients.cnf
+                  - 50-client.cnf  
+
+        - name: Change charset server value to UTF-8
+          lineinfile:
+                  dest: "/etc/mysql/mariadb.conf.d/{{ item }}"
+                  regexp: '^character-set-server'
+                  line: 'character-set-server = utf8' 
+          with_items:
+                  - 50-server.cnf
+                  - 99-openstack.cnf  
+
+        - name: Change collation charset value to utf8_general_ci
+          lineinfile:
+                  dest: "/etc/mysql/mariadb.conf.d/{{ item }}"
+                  regexp: '^collation-server'
+                  line: 'collation-server = utf8_general_ci' 
+          with_items:
+                  - 50-server.cnf
+                  - 99-openstack.cnf
+
+        - name: Restart MariaDB
+          service:
+                 name:  mysql
+                 state: restarted

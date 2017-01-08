@@ -1,0 +1,88 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+  connection: local
+
+  tasks:
+
+        - name: Authenticate to the cloud and retrieve the service catalog
+          os_auth:
+                  cloud: admin
+
+                  #- name: Show service catalog
+                  #debug:
+                  #var: service_catalog
+        
+                  #  - name: Test os client config
+                  #os_client_config:
+                  #clouds:
+                  #- jad
+                  #- os_project_facts:
+                  #cloud: jad
+        - name: Listing all projects
+          os_project_facts:
+                  cloud: admin
+        - debug:
+                var: openstack_projects         
+
+        - name: Create Service Project
+          os_project:
+                cloud: admin
+                name: service
+                domain_id: default
+                state: present
+                description: "Service Project"
+                enabled: True 
+
+        - name: Create Demo Project
+          os_project:
+                  cloud: admin
+                  name: demo
+                  domain_id: default
+                  state: present
+                  description : "Demo Project"
+                  enabled: True
+
+        - name: Create Demo user
+          os_user:
+                  cloud: admin
+                  state: present
+                  name: demo
+                  password: "{{admin_pass}}"
+                  domain: default
+                  #default_project: demo
+        
+        - name: Create the USER role
+          os_keystone_role:
+                  cloud: admin
+                  state: present
+                  name: user
+
+        - name: Add the user ROLE to demo PROJECT and demo USER
+          os_user_role:
+                  cloud: admin
+                  state: present
+                  user: demo
+                  project: demo
+                  role: user
+                  
+- hosts: controller
+
+  tasks:
+
+        - name: Manage keyston-paste.ini
+          template:
+                src: templates/keyston-paste_ini.j2
+                dest: /etc/keystone/keystone-paste.ini
+                backup: yes
+
+        - name: Request ADMIN authentication token
+          command: openstack --os-auth-url http://controller:35357/v3 \
+                   --os-project-domain-name default --os-identity-api-version 3 --os-user-domain-name default \
+                   --os-project-name admin --os-username admin --os-password {{ admin_pass}} token issue
+
+        - name: Request DEMO authentication token
+          command: openstack --os-auth-url http://controller:5000/v3 \
+                   --os-project-domain-name default --os-identity-api-version 3 --os-user-domain-name default \
+                   --os-project-name demo --os-username demo --os-password {{ admin_pass }} token issue
