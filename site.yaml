@@ -1,0 +1,8 @@
+---
+
+#We prepare the systems for ansible compatibility, /etc/hosts and network interfaces
+- hosts: servers
+
+  roles:
+          - ansible_prep
+          - hosts  
