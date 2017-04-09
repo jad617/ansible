@@ -1,0 +1,11 @@
+[global]
+port = 1701
+force userspace = yes
+ 
+[lac {{ conn_name }}]
+lns = {{ vpn_server_ip }}
+ppp debug = yes
+pppoptfile = /etc/ppp/options.l2tpd.client
+length bit = yes
+ip range = 172.27.79.4-172.27.79.5
+

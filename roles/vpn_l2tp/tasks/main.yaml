@@ -1,0 +1,41 @@
+---
+
+- name: Install VPN components
+  apt:
+        name: "{{ item }}"
+        state: present
+  with_items:
+        - strongswan
+        - xl2tpd
+        - iptables-persistent
+
+- name: Configure IPsec
+  template:
+          src: ipsec.j2
+          dest: /etc/ipsec.conf
+
+- name: Configure IPsec PSK
+  template:
+          src: ipsec_secret.j2
+          dest: /etc/ipsec.secrets
+          owner: root
+          group: root
+          mode: "600"
+
+- name: Configure xl2tp
+  template:
+          src: xl2tp_conf.j2
+          dest: /etc/xl2tpd/xl2tpd.conf
+
+- name: Configure PPP l2tp
+  template:
+          src: ppp_options.j2
+          dest: /etc/ppp/options.l2tpd.client
+
+- name: Configure PPP chap_secrets
+  template:
+          src: chap_secrets.j2
+          dest: /etc/ppp/chap-secrets
+          owner: root
+          group: root
+          mode: "600"

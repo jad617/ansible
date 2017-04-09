@@ -1,0 +1,6 @@
+---
+
+- hosts: vpn
+  
+  roles:
+          - vpn_l2tp
