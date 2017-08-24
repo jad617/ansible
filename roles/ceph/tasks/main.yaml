@@ -1,7 +1,24 @@
 ---
 
-
         - name: Add keys
           apt_key:
                 url: "https://download.ceph.com/keys/release.asc"
                 state: present
+
+        - name: Adding ceph repo
+          apt_repository:
+                  repo: deb https://download.ceph.com/debian-jewel/ {{ ansible_lsb.codename }} main
+                  state: present
+
+        - name: Installing ceph
+          apt:
+                name: "{{ item }}"
+                state: present
+          with_items:
+                  - ceph
+                  - ceph-mds
+
+#Setup /etc/ceph/ceph.conf + fsid
+        - name: Create fsuid
+          command: uuidgen 
+
