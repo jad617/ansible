@@ -20,5 +20,6 @@
 
 #Setup /etc/ceph/ceph.conf + fsid
         - name: Create fsuid
-          command: uuidgen 
+          command: uuidgen
 
+#Ad
