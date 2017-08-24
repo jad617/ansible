@@ -1,0 +1,7 @@
+---
+
+
+        - name: Add keys
+          apt_key:
+                url: "https://download.ceph.com/keys/release.asc"
+                state: present
