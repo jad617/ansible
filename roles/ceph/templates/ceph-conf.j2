@@ -1,0 +1,18 @@
+[global]
+fsid = {{ fsid }}
+###Public Network is the network were your Monitors and Clients(glance,nova,cinder) will communicate with the ceph cluster
+public network = {{ public_network }}
+####Cluster Network is only between OSDs to handle OSD heartbeat, object replication and recovery traffic
+##This one is optional
+cluster network = {{ cluster_network }}
+auth cluster required = cephx
+auth service required = cephx
+auth client required = cephx
+osd journal size = 1024
+filestore xattr use omap = true
+osd pool default size = 2
+osd pool default min size = 1
+osd pool default pg num = 333
+osd pool default pgp num = 333
+osd crush chooseleaf type = 1
+

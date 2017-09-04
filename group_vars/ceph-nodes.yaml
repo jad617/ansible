@@ -1,4 +1,7 @@
 ---
 
 fsid: f0d61765-25ca-4856-b912-f307fa6e77b9
+public_network: 10.0.0.0/24
+cluster_network: 10.0.1.0/24
+
 
