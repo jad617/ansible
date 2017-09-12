@@ -1,0 +1,11 @@
+[engines]
+engine1 ansible_host=72.251.232.119
+
+[nodes]
+node1 ansible_host=72.251.232.119
+node2 ansible_host=72.251.232.117
+
+[ovirt:children]
+engine1
+node1
+node2
