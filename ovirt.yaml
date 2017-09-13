@@ -1,12 +1,12 @@
 ---
 
-#- hosts: ovirt
-#  roles:
-#       - basics_yum
-#
-#- hosts: engines
-#  roles:
-#       - ovirt
+- hosts: ovirt
+  roles:
+       - basics_yum
+
+- hosts: engines
+  roles:
+       - ovirt
 
 - hosts: localhost
   roles:
