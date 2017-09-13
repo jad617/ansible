@@ -4,6 +4,10 @@
 #  roles:
 #       - basics_yum
 #
-- hosts: engines
+#- hosts: engines
+#  roles:
+#       - ovirt
+
+- hosts: localhost
   roles:
-       - ovirt
+       - ovirt-api  

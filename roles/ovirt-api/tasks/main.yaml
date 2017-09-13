@@ -1,0 +1,27 @@
+---
+
+- block:
+        - name : Obtaine SSO Token
+          #no_log: true
+          ovirt_auth:
+                   url: https://ovirt.nodestack.ca/ovirt-engine/api
+                   username: admin@internal
+                   password: passovirt678
+                   state: present
+                   ca_file: /etc/pki/ovirt-engine/ca.pem
+                   #insecure: true
+                   #kerberos: false
+
+        - name: Create datacenter
+          ovirt_datacenters:
+                auth:
+                    name: mydatacenter
+                    local: True
+                    compatibility_version: 4.0
+                    quota_mode: enabled
+                    #  always:
+                    #        - name: Revoke the SSO token
+                    #          ovirt_auth:
+                    #                state: absent
+                    #                ovirt_auth: "{{ ovirt_auth }}"
+                    #
