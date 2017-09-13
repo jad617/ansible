@@ -1,27 +1,33 @@
 ---
 
-#- name: Include vault ovirt pass
-#  include_vars: ovirt_password.yaml
 
 #- block:
-#        - name : Obtaine SSO Token
-#          no_log: true
-#          ovirt_auth:
-#                   url: https://ovirt.nodestack.ca/ovirt-engine/api
-#                   username: admin@internal
-#                   password: "{{ password }}"
-#                   ca_file: /root/ca.pem
-#                   #insecure: true
-#                   #kerberos: false
+#
+#	- name: Obtaine SSO Token
+#	  no_log: true
+#	  ovirt_auth:
+#	      	url: https://ovirt.nodestack.ca/ovirt-engine/api
+#	       	username: admin@internal
+#	       	password: passovirt678
+#	       	ca_file: /root/ca.pem
 
-- name: Create datacenter
-  ovirt_datacenters:
-     auth:
+
+- block:
+    - name: Obtain SSO token
+      no_log: true
+      ovirt_auth:
         url: https://ovirt.nodestack.ca/ovirt-engine/api
         username: admin@internal
         password: passovirt678
         ca_file: /root/ca.pem
-     name: mydatacenterrrr
-     local: True
-     compatibility_version: 4.0
-     quota_mode: enabled
+
+
+    - name: Create datacenter
+      ovirt_datacenters:
+       auth: "{{ ovirt_auth }}"
+       name: mydata3333
+       local: true
+       compatibility_version: 4.0
+       quota_mode: enabled
+
+
