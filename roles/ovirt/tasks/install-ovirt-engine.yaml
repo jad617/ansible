@@ -1,0 +1,45 @@
+---
+
+
+- name: Enable oVirt 4.0 repo
+  yum:
+    name: http://resources.ovirt.org/pub/yum-repo/ovirt-release40.rpm
+    state: present
+
+- name: Install oVirt 4.0
+  yum:
+    name: ovirt-engine
+    state: present
+
+- name: Install Pip
+  yum:
+    name: python-pip
+    state: present
+
+- set_fact:
+    engine_fqdn: "{{ ansible_fqdn }}"
+    engine_domain: "{{ ansible_domain }}"
+  when: not engine_manual
+
+- name: Adding answer.txt file
+  template:
+          src: answer.j2
+          dest: /root/answer.txt
+
+- name: Initialize the oVirt-engine
+  command: engine-setup --config=/root/answer.txt
+  args:
+        creates: /var/lib/pgsql/data/*
+
+  #- name: Initialize the oVirt-engine
+  #  expect:
+  #        command: engine-setup --config=/root/answer.txt
+  #        responses:
+  #                "backup" : "No"
+  #                "stopped" : "OK"
+  #        timeout: 600
+  #        echo: yes
+  #  register: prompt
+  #
+  #- debug:
+  #        var: prompt.stdout_lines

@@ -1,0 +1,14 @@
+---
+
+- name: Install EPEL
+  yum:
+          name: epel-release
+
+- name: Install Vim
+  yum:
+          name: vim
+
+- name: upgrade all packages
+  yum:
+        name: '*'
+        state: latest

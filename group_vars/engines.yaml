@@ -1,0 +1,10 @@
+---
+#We seet the password for the engine admin user
+engine_pass: passovirt678
+
+#Choices:
+#       - True --> To manually add FQDN and DOMAIN vars
+#       - False --> To let Ansible use the gathered facts for FQDN and Domain
+engine_manual: true
+engine_fqdn: ovirt.nodestack.ca
+engine_domain: nodestack.ca

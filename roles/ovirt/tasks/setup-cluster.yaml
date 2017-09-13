@@ -1,0 +1,23 @@
+---
+
+#- ovirt_auth:
+#        url: https://ovirt.nodestack.ca/ovirt-engine/api
+#        username: admin
+#        password: passovirt678
+#        state: present
+#        insecure: true
+#        kerberos: false
+
+- ovirt_datacenters:
+    auth:
+        url: https://ovirt.nodestack.ca/ovirt-engine/api
+        username: admin@internal
+        password: passovirt678
+        state: present
+        insecure: true
+        kerberos: false
+    name: mydatacenter
+    local: True
+    compatibility_version: 4.0
+    quota_mode: enabled
+

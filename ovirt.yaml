@@ -1,0 +1,9 @@
+---
+
+#- hosts: ovirt
+#  roles:
+#       - basics_yum
+#
+- hosts: engines
+  roles:
+       - ovirt
