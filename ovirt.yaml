@@ -6,7 +6,11 @@
 
 - hosts: engines
   roles:
-       - ovirt
+       - ovirt-engines
+
+- hosts: nodes
+  roles:
+       - ovirt-nodes
 
 - hosts: localhost
   roles:
