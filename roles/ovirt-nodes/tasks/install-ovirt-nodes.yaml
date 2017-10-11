@@ -1,0 +1,7 @@
+---
+
+- name: Enable oVirt 4.1 repo
+  yum:
+    name: http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
+    state: present
+
