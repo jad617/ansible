@@ -1,0 +1,6 @@
+---
+
+#TO create a functionnal host file
+engine_host: ovirt.nodestack.ca
+node1_host: ovirt.nodestack.ca
+node2_host: ovirt.nodestack.ca
