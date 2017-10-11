@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+127.0.0.1   "{{ ansible_fqdn }}" localhost alocalhost.localdomain
+::1         "{{ ansible_fqdn }}" localhost localhost.localdomain
+
+{% for item in ansible_play_batch %}
+{{ hostvars[item]['ansible_hostname'] }} {{ item }}
+{% endfor %}
+~                     

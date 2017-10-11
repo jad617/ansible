@@ -1,12 +1,17 @@
 ---
 
 
-- name: Enable oVirt 4.0 repo
+- name: Enable oVirt 4.1 repo
   yum:
-    name: http://resources.ovirt.org/pub/yum-repo/ovirt-release40.rpm
+    name: http://resources.ovirt.org/pub/yum-repo/ovirt-release41.rpm
     state: present
 
-- name: Install oVirt 4.0
+- name: Upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install oVirt 4.1
   yum:
     name: ovirt-engine
     state: present
@@ -20,6 +25,15 @@
     engine_fqdn: "{{ ansible_fqdn }}"
     engine_domain: "{{ ansible_domain }}"
   when: not engine_manual
+
+- name: Changing the hostname to match the Engine FQDN
+  hostname:
+        name: "{{ engine_fqdn }}"
+
+- name: Generate /etc/hosts file
+  template:
+        src: hosts.j2
+        dest: /etc/hosts
 
 - name: Adding answer.txt file
   template:
