@@ -1,0 +1,2 @@
+[openvpn-vpn]
+server1 ansible_host=23.92.176.221

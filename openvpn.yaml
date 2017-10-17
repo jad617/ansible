@@ -1,0 +1,6 @@
+---
+
+- hosts: openvpn-vpn
+  roles:
+          #          - ansible_prep
+          - openvpn

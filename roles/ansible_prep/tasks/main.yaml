@@ -1,14 +1,19 @@
 ---
 
 
-#          - name: Install python2
+#        - name: Install python2
 #            raw:  test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
-          - name: super-ugly hack to allow unauthenticated packages to install
-            copy: content='APT::Get::AllowUnauthenticated "true";' dest=/etc/apt/apt.conf.d/99temp owner=root group=root mode=0644
+        - name: super-ugly hack to allow unauthenticated packages to install
+          copy: content='APT::Get::AllowUnauthenticated "true";' dest=/etc/apt/apt.conf.d/99temp owner=root group=root mode=0644
 
-          - name: Update and dist-upgrade
-            apt:
-                update_cache: yes
-                upgrade: dist
-                state: latest
+        - name: Update and dist-upgrade
+          apt:
+             update_cache: yes
+             upgrade: dist
+             state: latest
+
+        - name: Install VIM
+          apt:
+             name: vim
+             state: present

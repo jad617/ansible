@@ -1,0 +1,25 @@
+---
+
+        - name: Install OpenVPN
+          apt:
+             name: "{{ item }}"
+             state: present
+          with_items:
+                  - openvpn
+                  - easy-rsa
+
+        - name: Confirming if CA dir exists
+          stat:
+              path: /root/openvpn-ca
+          register: ca_dir
+
+        - name: Make-ca dir
+          command: make-cadir /root/openvpn-ca
+          when: ca_dir.stat.exists == False
+
+        - name: Add vars file
+          template: 
+                src: vars.j2
+                dest: /root/openvpn-ca/vars
+        
+        - name: Build the CA Authority
