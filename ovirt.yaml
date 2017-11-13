@@ -1,16 +1,16 @@
 ---
 
-- hosts: ovirt
-  roles:
-       - basics_yum
+#- hosts: ovirt
+#  roles:
+#       - basics_yum
 
-- hosts: engines
-  roles:
-       - ovirt-engines
+#- hosts: engines
+#  roles:
+#       - ovirt-engines
 
-- hosts: nodes
-  roles:
-       - ovirt-nodes
+#- hosts: nodes
+#  roles:
+#       - ovirt-nodes
 
 - hosts: localhost
   roles:

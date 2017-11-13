@@ -1,5 +1,6 @@
 ---
 
+        #password: passovirt678
 
 #- block:
 #
@@ -12,22 +13,30 @@
 #	       	ca_file: /root/ca.pem
 
 
+
+
 - block:
     - name: Obtain SSO token
       no_log: true
       ovirt_auth:
         url: https://ovirt.nodestack.ca/ovirt-engine/api
         username: admin@internal
-        password: passovirt678
+        password: 7ayater5
         ca_file: /root/ca.pem
 
 
-    - name: Create datacenter
-      ovirt_datacenters:
-       auth: "{{ ovirt_auth }}"
-       name: mydata3333
-       local: true
-       compatibility_version: 4.0
-       quota_mode: enabled
 
+- ovirt_datacenters:
+    auth: "{{ ovirt_auth }}"
+    name: Datacenter1
+    local: True
+    compatibility_version: 4.1
+    quota_mode: enabled
 
+- name: Create Cluster
+  ovirt_clusters:
+    auth: "{{ ovirt_auth }}"
+    name: Cluster1
+    datacenter_name: Datacenter1
+    cpu_type: Intel SandyBridge Family 
+    compatibility_version: 4.1
