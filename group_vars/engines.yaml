@@ -1,5 +1,5 @@
 ---
-#We seet the password for the engine admin user
+#We set the password for the engine admin user
 engine_pass: passovirt678
 
 #Choices:
