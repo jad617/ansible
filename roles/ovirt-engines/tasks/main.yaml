@@ -1,3 +1,4 @@
 ---
 
 - include: install-ovirt-engine.yaml
+- include: fetch.yaml

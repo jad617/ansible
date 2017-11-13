@@ -26,17 +26,24 @@
 
 
 
-- ovirt_datacenters:
-    auth: "{{ ovirt_auth }}"
-    name: Datacenter1
-    local: True
-    compatibility_version: 4.1
-    quota_mode: enabled
+#- ovirt_datacenters:
+#    auth: "{{ ovirt_auth }}"
+#    name: Datacenter1
+#    local: True
+#    compatibility_version: 4.1
+#    quota_mode: enabled
+#
+#- name: Create Cluster
+#  ovirt_clusters:
+#    auth: "{{ ovirt_auth }}"
+#    name: Cluster1
+#    datacenter_name: Datacenter1
+#    cpu_type: Intel SandyBridge Family 
+#    compatibility_version: 4.1
 
-- name: Create Cluster
-  ovirt_clusters:
-    auth: "{{ ovirt_auth }}"
-    name: Cluster1
-    datacenter_name: Datacenter1
-    cpu_type: Intel SandyBridge Family 
-    compatibility_version: 4.1
+ - name: Create Cluster
+   ovirt_hosts:
+	auth: "{{ ovirt_auth }}"
+	public_key: true
+	name: host1
+	address: "{{ node1_address }}"

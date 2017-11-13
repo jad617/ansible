@@ -1,0 +1,7 @@
+---
+
+
+- name: Fetch CA PEM
+  fetch:
+	src: /etc/pki/ovirt-engine/ca.pem
+	dest: /root/ca.pem
