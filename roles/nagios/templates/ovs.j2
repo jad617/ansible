@@ -1,0 +1,64 @@
+### 
+###{{ ansible_managed }}
+###
+
+auto lo
+iface lo inet loopback
+    dns-nameservers {% for ns in nameservers %}{{ ns.ip }} {% endfor %}
+
+
+{% for int in interfaces %}
+auto {{ int }}
+iface {{ int }} inet manual
+
+{% endfor %}
+
+{% if not bonding %}
+{% for int in flat_interfaces %}
+auto {{ int.br_name }}
+allow-ovs {{ int.br_name }}
+iface {{ int.br_name }} inet static
+    address {{ int.ip_address }}
+{% if int.ip_gateway is defined %}
+    gateway {{ int.ip_gateway }}
+{% endif %}
+    ovs_type OVSBridge
+    ovs_ports {{ int.phys_name }}
+
+{% endfor %}
+{% endif %}
+
+{% if bonding %}
+auto {{ ovs_bridge }}
+allow-ovs {{ ovs_bridge }}
+iface {{ ovs_bridge }} inet manual
+    ovs_type OVSBridge
+    ovs_ports {{ ovs_bond }} {% for config in bond_interfaces %}{{ config.int_name }} {% endfor %}
+{% endif %}
+
+
+{% if bonding %}
+allow-{{ ovs_bridge }} {{ ovs_bond }}
+iface bond0 inet manual
+    ovs_bridge {{ ovs_bridge }}
+    ovs_type OVSBond
+    ovs_bonds {% for int in interfaces %}{{ int }} {% endfor %}
+
+    ovs_options lacp=active
+{% endif %}
+
+{% if bonding %}
+{% for config in bond_interfaces %}
+auto {{ config.int_name }}
+allow-{{ ovs_bridge }} {{ config.int_name }}
+iface {{ config.int_name }} inet static
+    address {{ config.ip_address }}
+{% if config.ip_gateway is defined %}
+    gateway {{ config.ip_gateway }}
+{% endif %}
+    ovs_bridge {{ ovs_bridge }}
+    ovs_type OVSBridge
+    ovs_options {{ ovs_bridge }} {{ config.vlanid }}
+
+{% endfor %}
+{% endif %}

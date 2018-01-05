@@ -1,0 +1,11 @@
+---
+- name: Install Open vSwitch
+  apt:
+          name: openvswitch-switch
+          state: present
+
+- name: Configuring network interfaces
+  template:
+          src: ovs.j2
+          dest: /etc/network/interfaces.d/50-cloud-init.cfg
+  notify: "restart network"
