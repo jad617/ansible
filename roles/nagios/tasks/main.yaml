@@ -1,11 +1,44 @@
 ---
-- name: Install Open vSwitch
+- name: Install nagios
   apt:
-          name: openvswitch-switch
+          name: "{{ item }}"
           state: present
+  with_items:
+          - nagios3
+          - nagios-plugins
+          - python-passlib
 
-- name: Configuring network interfaces
+- name: Append Nagios user to groups
+  user:
+          name: nagios
+          groups: nagios, www-data
+          append: yes
+
+- name: Make plugins executable
+  file:
+          path: /var/lib/nagios3/
+          state: directory
+          mode: "a+x"
+
+- name: Set Nagios admin password 
+  htpasswd:
+          path: /etc/nagios3/htpasswd.users
+          name: nagiosadmin
+          password: "{{ nagios_pass }}"
+
+- name: Cleaning generic config
+  file:
+          path: "/etc/nagios3/conf.d/"
+          state: absent
+
+- name: Creating conf folder
+  file:
+          path: /etc/nagios3/conf.d/
+          state: directory
+
+- name: Copy templates
   template:
-          src: ovs.j2
-          dest: /etc/network/interfaces.d/50-cloud-init.cfg
-  notify: "restart network"
+          src: "{{ item.src }}"
+          dest: "{{item.dest}}"
+  with_items:
+          - { src: 'hosts.j2', dest: '/etc/nagios3/conf.d/hosts.cfg' }

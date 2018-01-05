@@ -1,2 +1,2 @@
-[monitor]
-nagios1 ansible_host=72.251.229.84
+[monitors]
+nagios1 ansible_host=23.92.191.83

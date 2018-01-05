@@ -1,0 +1,12 @@
+---
+
+nagios_pass: penny6172
+
+monitored_hosts:
+ - hostname: ovs1
+   alias: OVS1
+   address: 23.92.191.80
+
+ - hostname: ovs2
+   alias: OVS2
+   address: 23.92.191.78

@@ -1,0 +1,6 @@
+---
+
+- hosts: monitors
+  roles:
+          - ansible_prep
+          - nagios

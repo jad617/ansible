@@ -1,0 +1,8 @@
+{% for host in monitored_hosts %}
+define host{
+use                             generic-host              ; Inherit default values from a template
+host_name                       {{ host.hostname }}       ; The name we're giving to this server
+alias                           {{ host.alias }}                ; A longer name for the server
+address                         {{ host.address }}            ; IP address of Remote Linux host
+}
+{% endfor %}
