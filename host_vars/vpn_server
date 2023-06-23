@@ -6,10 +6,3 @@ conn_name: Test_l2tp_vpn
 vpn_server_ip: 72.251.229.84
 vpn_server_ip_priv: 172.27.79.28
 vpn_subnet: 172.27.79.28/27
-
-psk: 7ayater5
-
-vpn_users:
- - {username: jad, password: t3st!111}
- - {username: djal, password: t3st!222}
- - {username: wass, password: t3st!333}
