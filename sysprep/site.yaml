@@ -1,4 +1,4 @@
 ---
 
 - include: ansible_prep.yaml
-- include: hosts..yaml
+- include: hosts.yaml
